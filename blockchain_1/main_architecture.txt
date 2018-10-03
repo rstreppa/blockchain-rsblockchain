@@ -1,0 +1,54 @@
+int main(int argc, char* argv[])
+{	 
+	printf("Welcome! To quit-> Control c \n");
+	Node node; // singleton design pattern? dangerous 
+	sleep random time;
+	node.make_genesis_block;
+	p2p.broadcast(node.get_blockchain());
+
+
+
+
+
+
+	
+
+}
+
+
+
+
+
+
+int main(int argc, char* argv[])
+{	
+	boost::thread_group WorkerThreads;
+	Node node;											// singleton design pattern
+	Blockchain bc(node.get_blockchain())
+	if(bc.isempty && listofNodes.isempty) {bc.addGenesis()}
+	vector<Nodes> listOfNodes = node.listconnections(); // 1 thread
+	short port = addSelfToNetwork(&listOfNodes);
+	Server s = node.serverside(node, port)				// 1 thread 													 
+	// Server ctor 
+	//				1 listens and records on the block incoming transactions
+	//				2 listens and validates incoming blockchains 
+	//				3 accepts the longest blockchain  
+	node.transaction()						// 1 thread
+	node.mine()								// 1 thread 
+	for(;;) {
+		if(0==node.newtransaction()) {
+			s.close()									// join server thread
+			Client c = node.clientmode()				// do you need a thread? probably not	
+			c.broadcast_transaction(listofNodes, port)	// 				
+			Server s = node.servermode					// 1 thread 		  
+		}
+		if(0==node.newblock()) {
+				s.close()						// join server thread 
+				Client c = node.clientmode		// do you need a thread? probably not
+				c.broadcast_blockchain(bc)		//
+				c.close							// join client thread
+				Server s = node.servermode		// 1 thread 		  
+		}  
+	}
+}
+

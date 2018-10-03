@@ -1,0 +1,65 @@
+class Node	// singleton design pattern?
+	private: 
+			m_balance; m_port; m_portList;
+			vector<Transaction> m_transactions, m_blocks, m_blockchain
+	c'tor: 
+			choose an available port with serverPort
+			initialize portList, the vector of active ports
+			set balance to initial value
+	members:
+			make_genesis_block
+		 	make_transaction
+			
+class Controller: public Node
+	private:
+			vector<Transaction> m_unconfirmed_pool
+			vector<Message> m_msgs
+	members:
+			add_transaction_to_pool
+			empty_pool
+			remove_from_pool(Block) 
+			mine_block
+			validate_block
+			addBlock
+			send_back_to_pool
+			validate_chain
+			reorganize_chain
+				/**
+		@brief	manage incoming messaged
+				1) if Transaction: add to pool Controller::addTransactionToPool
+				2) if Block:	  
+							a) validate Block by invoking Controller::validateBlock
+							b) if Block invalid send transactions back Controller::sendBackToPool
+							c) if Block valid add to active chain Controller::addBlock
+				3) if BlockChain:
+							a) validate chain Controller::validateChain
+							b) if chain invalid reject chain
+							c) if chain valid and identical to active do nothing
+							d) if chain valid and matching only until a length of the chain
+									i.  find complement block(s) Controller::complementBlocks
+									ii. if length of complement chain  > 6, reject chain 
+									ii. send transactions back to pool Controller::sendBackToPool on each Block 
+
+		@return success or failure in performing operations
+	*/
+	bool manageIncomingMessage(const Message& msg);
+
+
+class P2P
+	private:
+			shared_ptr Node* pNode 
+			xxsocket p2p
+	constructor:
+			P2P(const Node& node)
+	members:
+			server
+			client
+			broadcast	// overloaded: broadcast transaction, block, blockchain in a Message  
+						// every time you broadcast first call accepting_connections and update portList
+						
+
+class MessageManager
+	private: 
+			Message msg
+	members:
+			manageMessage

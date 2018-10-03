@@ -1,0 +1,22 @@
+The rules in practice are this: when a new block arrives, and it extends the previous active chain, 
+we just append it to the active chain. 
+If not, it depends on whether the branch it extends now has more work than the currently active branch. 
+If not, we store the block and stop. 
+If it does have more work, we do a so called "reorganisation": deactivating blocks from the old branch, 
+and activating blocks from the new branch.
+
+
+Imagine that the blockchain is 210000 blocks long and TWO miners both find valid blocks 
+within a few seconds of each other and broadcast them to the network.
+This is perfectly normal as the Bitcoin network is peer to peer and global.
+You now have two chains, each of length 210001. Neither of these are longer than each other. 
+Some bitcoind nodes will see the first miner's block and some bitcoind nodes will see the second.
+Temporarily you have two forks of the blockchain, each of length 210001 blocks long. 
+They are identical for 210000 blocks, but the 210001st is different on the two forks.
+Sometime later another miner finds another valid block, the 210002nd block, and that will be attached 
+to exactly one of the forks.
+This chain is now the longest at 210002 blocks and becomes the longest chain. 
+It becomes the "definitive" blockchain.
+(The transactions in the alternate fork don't disappear - 
+they simply get put back into the pool of unconfirmed transactions and 
+miners will put them into a subsequent block).

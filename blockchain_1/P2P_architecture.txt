@@ -1,0 +1,16 @@
+	the executable runs a node
+	each node can run a server side and a client side 
+	each node runs 1 thread to constantly update the array of active connections
+	each node runs 1 thread to run as a server side
+	the first node immediately generates the genesis block in the blockchain
+	each node has the capability of making a transaction to each of the other nodes (not self)
+	each node has the capability of mining a block
+	as soon as a transaction is done or a block is mined a node swithces to client side and 
+	communicates to the list of active servers
+	the server side receives and stores the transaction into the next block
+	the server side receives and validates the newly received block, longest chain rule applies
+	the client side broadcasts the transaction(s)
+	the client side that mined a block broadcasts its chain
+	the node that validated the chain broadcasts it through the client side
+	asynchronous calls: client doesn't freeze while waiting for server response
+
