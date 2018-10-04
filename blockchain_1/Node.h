@@ -94,20 +94,21 @@ public:
 	*/
 	void makeTransaction(boost::random::mt19937_64& rng);
 	/** @brief	manage a Transaction received as a Message:
-				1) update balance
+				1) update balance if explicitly addressed to you
 				2) add it to pool
 				3) add it to the internal list of all Transactions
 	*/
-	void manageTransaction();
+	void manageTransaction(const Transaction& newtransaction);
 	/** @brief	mine new Block (separate thread):
 				1) solve computational puzzle as Proof-Of-Work
 				2) create new valid Block, populate it with pool Transactions, empty pool 
 				3) initialize internal candidate Block 
 				4) store in bookkeping vector of Blocks
-				5) package it in a Message and send it to the network (TOGETHER WITH ACTIVE CHAIN)
-				6) add Messages (Block & BlockChain) to internal list of Outgoing Messages for Bookkeeping
+				5) add to own active chain
+				6) package it in a Message and send it to the network (together with updated active chain)
+				7) add Messages (Block & BlockChain) to internal list of Outgoing Messages for Bookkeeping
 	*/
-	void mineBlock();
+	void mineBlock(boost::random::mt19937_64& rng);
 	/** @brief	manage a Block received as a Message or just mined:
 			1) initialize internal candidate Block
 			2) validate it
@@ -115,21 +116,20 @@ public:
 			4) if invalid, send Transactions back to pool 
 			5) add it to the internal bookkeping list of all Blocks
 	*/
-	void manageBlock();
+	void manageBlock(const Block& newblock);
 	/** @brief	manage a BlockChain received as a Message:
 			1) initialize internal candidate BlockChain
 			2) validate it
 			3) if valid update chain 
 			4) if invalid, send complement Transactions back to pool
 	*/
-	void manageChain();
+	void manageChain(const vector<Block>& newchain);
 	/** @brief	manage an incoming Message:
 			1) add Message to internal list of Incoming Messages for Bookkeeping
 			2) check header and 
 				2a) if Transaction manage Transaction
 				2b) if Block manage Block
 				2c) if BlockChain manage Chain
-		@return success or failure
 	*/
-	bool manageIncomingMsg(const Message& newmessage);
+	void manageIncomingMsg(const Message& newmessage);
 };

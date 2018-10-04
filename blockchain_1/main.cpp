@@ -3,36 +3,44 @@
 
 #include "Node.h"
 #include <iostream>
-#include <boost/thread.hpp>
 #include <boost/random.hpp>
-#include<boost/random/uniform_int_distribution.hpp>
 #include "Peer2Peer.h"
+#include <boost/thread.hpp>
+#include "Decorator.h"
+#include<boost/random/uniform_int_distribution.hpp>
 
 using namespace std;
 
 
 int main(int argc, char* argv[])
 {	
-	// 1 create a unique Node and initalize it with balance and server port
-	Node& node = Node::getInstance(1000000);
+	// 1 create a unique Node (singleton) and initalize it with balance, Node port randomly chosen among available
+	Node& node = Node::getInstance(Constants::ACCOUNT);
 	cout << "Welcome! Node created with initial balance = " << node.getBalance() << endl;
 	cout << "Node bound to server port = " << node.getPort() << endl;
 
-	// 2 create thread group and seed random number generator with unique server port
-	boost::thread_group tg;
+	// 2 Seed random number generator with unique server port
 	boost::random::mt19937_64 rng(node.getPort());
 
-	// 3 create server thread 
+	// 3 create server thread
+	Peer2Peer p2p(node, Constants::localhost);
+	boost::thread s{ [&] {while (true) p2p.server(); } };
 
-	// 4 create thread for genesis Block
+	// 4 genesis Block created after a random (small) sleep time in seconds
+	// validated and placed on the BlockChain and sent over the network
+	boost::random::uniform_int_distribution<> N(1, Constants::SLEEP_GENESIS);
+	int x = N(rng);
+	boost::this_thread::sleep_for(boost::chrono::seconds(x));
+	Block genesis = node.makeGenesisBlock();
+	node.updateChain(genesis);
+	// auto f = std::bind(&Node::makeGenesisBlock, &node);		// this solution does not work, need to review
+	// auto sleepGenesis = makeSleepDecorator(Constants::SLEEP_GENESIS, rng, f);
 
 
-
-
-	// N delete instance of pointer to Node
-	if (Peer2Peer::deleteNode())
-		return 0;
-	else
-		return(1);
+	// Join threads
+	s.join();
+	
+	// No need to delete pointer to unique Node as we are exiting the program
+	return 0;
 }
 // EOF

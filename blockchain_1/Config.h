@@ -22,6 +22,7 @@ namespace Constants {
 	const size_t LONGEST_CHAIN_MISMATCH = 6;						///< max number of block difference new chain is allowed
 																	///< to have to replace the old one
 	const size_t SLEEP_TRANSACTION = 10;							///< max time in seconds sleep before a transaction is made
+	const size_t SLEEP_GENESIS = 5;									///< max time in seconds sleep before genesis block is mined
 	const size_t MAXNONCE = 1000000000;								///< maximum nonce allowed	
 	const unsigned long long TARGET = 1000000000000000;				///< target for the POW computational puzzle
 	const double POWFACTOR = (double)10000000;						///< factor to compute POW Difficulty 				
