@@ -32,3 +32,7 @@ I essentially took @gubatron Merkle Tree implementation, which is cristalline cl
 
 Last but not definitely not least, I am indebted to @nemopublius because his wonderful series of posts allowed me to understand Bitcoin, Blockchain and many other things
 https://self-evident.org/
+
+## TODO
+
+Implement a ZKP (Zero Knowledge Proof) protocol. There is little around in the literature both theoretically and in terms of available code. Wikipedia is a good place to start and the math involved appears not too difficult to implement.   
