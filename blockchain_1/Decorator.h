@@ -13,6 +13,7 @@ Purpose:	Template classes to decorate memebrs with added functionalities:
 #include <boost/random.hpp>
 #include<boost/random/uniform_int_distribution.hpp>
 #include <boost/thread.hpp>
+#include "Config.h"
 
 //---------------------------------------------
 // BEGIN random sleep decorator implementation
@@ -56,8 +57,14 @@ SleepDecorator<R(Args...)> makeSleepDecorator(const size_t max, boost::random::m
 //---------------------------------------------
 
 
-
-
+template <typename F>
+void sleeper(F f, boost::random::mt19937_64& rng)
+{
+	boost::random::uniform_int_distribution<> N(1, Constants::SLEEP_TRANSACTION);
+	int x = N(rng);
+	boost::this_thread::sleep_for(boost::chrono::seconds(x));
+	f(rng);
+}
 
 
 //-------------------------------------------

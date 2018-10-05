@@ -109,6 +109,13 @@ public:
 				7) add Messages (Block & BlockChain) to internal list of Outgoing Messages for Bookkeeping
 	*/
 	void mineBlock(boost::random::mt19937_64& rng);
+	/** @brief	send Block over the network, explicitely used for genesis only:
+			1) initialize internal candidate Block
+			2) store in bookkeping vector of Blocks 
+			3) package it in a Message and send it to the network (together with updated active chain)
+			4) add Messages (Block & BlockChain) to internal list of Outgoing Messages for Bookkeeping
+	*/
+	void sendBlock(const Block& block);
 	/** @brief	manage a Block received as a Message or just mined:
 			1) initialize internal candidate Block
 			2) validate it
@@ -132,4 +139,6 @@ public:
 				2c) if BlockChain manage Chain
 	*/
 	void manageIncomingMsg(const Message& newmessage);
+	/** @brief	makeTransaction wrapper adding a capped random sleep time */
+	void makeSleepTransaction(boost::random::mt19937_64& rng);
 };

@@ -7,6 +7,7 @@
 #include <iterator>
 #include<boost/random/uniform_int_distribution.hpp>
 #include "Peer2Peer.h"
+#include "Decorator.h"
 
 using namespace std;
 using namespace boost::posix_time;
@@ -316,6 +317,30 @@ void Node::mineBlock(boost::random::mt19937_64& rng)
 	}
 }
 
+void Node::sendBlock(const Block& block)
+{
+	// 1) initialize internal candidate Block
+	m_candidateblock = block;
+	
+	// 2) store in bookkeping vector of Blocks
+	m_blocks.push_back(block);
+
+	// 3) package it in a Message and send it to the network(together with updated active chain)
+	
+	Peer2Peer p2p(*this);
+
+	Message msgblock(block);
+	p2p.broadcast(msgblock);
+
+	Message msgchain(m_blockchain.getRawChain());
+	p2p.broadcast(msgchain);
+
+	// 4) add Messages(Block & BlockChain) to internal list of Outgoing Messages for Bookkeeping
+	m_outMsgs.push_back(msgblock);
+	m_outMsgs.push_back(msgchain);
+}
+
+
 void Node::manageBlock(const Block& newblock)
 {
 	// 1) initialize internal candidate Block
@@ -372,4 +397,13 @@ void Node::manageIncomingMsg(const Message& newmessage)
 	}
 }
 
+void Node::makeSleepTransaction(boost::random::mt19937_64& rng)
+{
+	boost::random::uniform_int_distribution<> N(1, Constants::SLEEP_TRANSACTION);
+	int x = N(rng);
+	boost::this_thread::sleep_for(boost::chrono::seconds(x));
+	makeTransaction(rng);
+	// Alternative implementation: the following line does not work, curious to understand why
+	// sleeper([&]() {makeTransaction(rng); });
+}
 
