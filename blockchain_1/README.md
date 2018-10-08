@@ -30,9 +30,8 @@ I analyzed in-depth Jack Schultz's @jackschultz Python BlockChain again to under
 
 I essentially took @gubatron Merkle Tree implementation, which is cristalline clear and simply made it a template https://gist.github.com/gubatron/00cb7358720c97d69b3d 
 
-Last but not definitely not least, I am indebted to @nemopublius because his wonderful series of posts allowed me to understand Bitcoin, Blockchain and many other things
-https://self-evident.org/
+Last but not definitely not least, I am indebted to @nemopublius because his wonderful series of posts allowed me to understand Bitcoin and Blockchain in the first place https://self-evident.org/
 
 ## TODO
 
-Implement a ZKP (Zero Knowledge Proof) protocol. There is little around in the literature both theoretically and in terms of available code. Wikipedia is a good place to start and the math involved appears not too difficult to implement.   
+Implement a ZKP (Zero Knowledge Proof) protocol. There is little around in the literature both theoretically and in terms of available code. Wikipedia is a good place to start and the math involved appears not too difficult to implement. Check out also zk-SNARKs (take a look at https://medium.com/@argongroup/on-zero-knowledge-proofs-in-blockchains-14c48cfd1dd1)  
