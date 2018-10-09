@@ -9,10 +9,9 @@ Compile and build on Windows 10 using the msvc compiler (Visual Studio Express 2
 -  Written mostly in C++11, some parts in C (implementation of SHA512)   
 -  Compiled with the msvc compiler (Visual Studio Express 2015) on Windows 10
 -  Employs a very simple Peer2Peer logic where each Node:
-  -  runs a thread for the server (listening to incoming Messages from the Network, decoding them and invoking the controlling Node member function) 
-  -  runs a thread to create transactions randomly, package them in a Message and send over the Network
-  -  runs a thread to mine Blocks, i.e. solve the computational puzzle for the nonce, collect transactions into the new Block, generate CoinBase transaction, 
-  package a Message and send over the Network 
+    -  runs a thread for the server (listening to incoming Messages from the Network, decoding them and invoking the controlling Node member function) 
+    -  runs a thread to create transactions randomly, package them in a Message and send over the Network
+    -  runs a thread to mine Blocks, i.e. solve the computational puzzle for the nonce, collect transactions into the new Block, generate CoinBase transaction, package a Message and send over the Network 
 - implement and employ SHA512 hashing function instead of the more common SHA256
 
 ## Dependencies (sourced libraries)
